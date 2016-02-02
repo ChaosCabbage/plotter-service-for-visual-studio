@@ -27,5 +27,10 @@ namespace PMC.PlotterService
         {
             plotter.AddPointSeries(series);
         }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            plotter.ClearAllPoints();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace PMC.PlotterService
         public const string guidPlotterServiceCmdSetString = "533aa122-d5b8-4b5c-a69e-1ec4941d9993";
         public const string guidToolWindowPersistanceString = "d74aff5a-3305-438c-801f-521d2c8fa425";
         public const string guidPlotter2DServiceString = "AB302E73-9B83-464C-A61C-93FED933F634";
+        public const string guidPlotter2DServiceTypeString = "2119FCCD-E684-4E38-800C-0824524626ED";
 
         public static readonly Guid guidPlotterServiceCmdSet = new Guid(guidPlotterServiceCmdSetString);
     };

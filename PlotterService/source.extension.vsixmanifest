@@ -3,9 +3,7 @@
   <Metadata>
     <Identity Id="935cb23f-5c8a-472b-95f7-c9f31c444be3" Version="1.0" Language="en-US" Publisher="PMC" />
     <DisplayName>PlotterService</DisplayName>
-    <Description xml:space="preserve">
-      This package exposes a service to other packages for drawing 2D line geometry. The geometry is displayed in a pannable and zoomable tool window inside visual studio.
-      It is intended to be used in conjunction with UI Visualizers for debugging.
+    <Description xml:space="preserve">This package exposes a service to other packages for drawing 2D line geometry. The geometry is displayed in a pannable and zoomable tool window inside visual studio. It is intended to be used in conjunction with UI Visualizers for debugging.
     </Description>
   </Metadata>
   <Installation InstalledByMsi="false">

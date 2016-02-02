@@ -135,6 +135,12 @@ namespace PMC.PlotterService.Drawing
             Draw();
         }
 
+        public void ClearAllPoints()
+        {
+            _pointSerieses.Clear();
+            Draw();
+        }
+
         private void Draw()
         {
             _gridRenderer.Draw();

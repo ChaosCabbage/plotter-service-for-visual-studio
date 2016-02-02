@@ -31,7 +31,7 @@ namespace PMC.PlotterService
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(PlotterToolWindow))]
-    [ProvideService(typeof(IPlotter2DService), ServiceName = "Plotter2DService")]
+    [ProvideService(typeof(SPlotter2DService), ServiceName = "Plotter2DService")]
     [Guid(GuidList.guidPlotterServicePkgString)]
     public sealed class PlotterServicePackage : Package
     {
@@ -45,6 +45,10 @@ namespace PMC.PlotterService
         public PlotterServicePackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+
+            var serviceContainer = this as IServiceContainer;
+            var serviceCreator = new ServiceCreatorCallback(CreatePlotterService);
+            serviceContainer.AddService(typeof(SPlotter2DService), serviceCreator, true);            
         }
 
         /// <summary>
@@ -76,17 +80,6 @@ namespace PMC.PlotterService
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            IServiceContainer serviceContainer = (IServiceContainer)this;
-
-            if (serviceContainer != null)
-            {
-                serviceContainer.AddService(
-                    typeof(IPlotter2DService), 
-                    new Plotter2DService(FindPlotterToolWindow()), 
-                    true
-                );
-            }
-
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
@@ -106,6 +99,13 @@ namespace PMC.PlotterService
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
             }
             return window as PlotterToolWindow;
+        }
+
+        private object CreatePlotterService(IServiceContainer container, Type serviceType)
+        {
+            // this gets called and returns a new bus instance
+            if (serviceType != typeof(SPlotter2DService)) { return null; }
+            return new Plotter2DService(FindPlotterToolWindow());
         }
         #endregion
 
