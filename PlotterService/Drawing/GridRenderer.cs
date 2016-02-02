@@ -157,8 +157,16 @@ namespace PMC.PlotterService.Drawing
 
         private void DrawMajorAxes()
         {
-            _graphics.DrawFullVertical(_origin.Point.X, 4, ColourScheme.MajorAxis);
-            _graphics.DrawFullHorizontal(_origin.Point.Y, 4, ColourScheme.MajorAxis);
+            double x = _origin.Point.X;
+            double y = _origin.Point.Y;
+            if (x >= -2 && x <= _graphics.Width() +2)
+            {
+                _graphics.DrawFullVertical(_origin.Point.X, 4, ColourScheme.MajorAxis);
+            }
+            if (y >= -2 && y <= _graphics.Height() + 2)
+            {
+                _graphics.DrawFullHorizontal(_origin.Point.Y, 4, ColourScheme.MajorAxis);
+            }
         }
 
         private void DrawMinorAxisDivisions()
