@@ -43,5 +43,14 @@ namespace PMC.PlotterService
             // the object returned by the Content property.
             base.Content = new PlotterControl();
         }
+
+        /// <summary>
+        /// Show the tool window in Visual Studio, or throw an error.
+        /// </summary>
+        public void Show()
+        {
+            IVsWindowFrame windowFrame = (IVsWindowFrame)this.Frame;
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+        }
     }
 }

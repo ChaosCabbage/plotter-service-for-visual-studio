@@ -37,10 +37,10 @@ namespace PMC.PlotterService
     {
         /// <summary>
         /// Default constructor of the package.
-        /// Inside this method you can place any initialization code that does not require 
-        /// any Visual Studio service because at this point the package object is created but 
-        /// not sited yet inside Visual Studio environment. The place to do all the other 
-        /// initialization is the Initialize method.
+        /// The package is not yet sited inside Visual Studio, so this is the place
+        /// for any setup that doesn't need the VS environment.
+        /// Here we register our service, so that it will be available to any other
+        /// packages by the time their Initialize is called.
         /// </summary>
         public PlotterServicePackage()
         {
@@ -52,18 +52,37 @@ namespace PMC.PlotterService
         }
 
         /// <summary>
-        /// This function is called when the user clicks the menu item that shows the 
-        /// tool window. See the Initialize method to see how the menu item is associated to 
-        /// this function using the OleMenuCommandService service and the MenuCommand class.
+        /// This is called the first time any package wants our plotter service.
         /// </summary>
-        private void ShowToolWindow(object sender, EventArgs e)
+        private object CreatePlotterService(IServiceContainer container, Type serviceType)
+        {
+            if (serviceType != typeof(SPlotter2DService)) { return null; }
+            return new Plotter2DService(FindPlotterToolWindow());
+        }
+
+        /// <summary>
+        /// Get our one and only tool window, the plotter grid.
+        /// </summary>
+        /// <returns></returns>
+        private PlotterToolWindow FindPlotterToolWindow()
         {
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            PlotterToolWindow window = FindPlotterToolWindow();
-            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            ToolWindowPane window = this.FindToolWindow(typeof(PlotterToolWindow), 0, true);
+            if ((null == window) || (null == window.Frame))
+            {
+                throw new NotSupportedException(Resources.CanNotCreateWindow);
+            }
+            return window as PlotterToolWindow;
+        }
+
+        /// <summary>
+        /// Show our one and only window.
+        /// </summary>
+        private void ShowToolWindow(object sender, EventArgs e)
+        {
+            FindPlotterToolWindow().Show();
         }
 
 
@@ -91,22 +110,6 @@ namespace PMC.PlotterService
             }
         }
 
-        private PlotterToolWindow FindPlotterToolWindow()
-        {
-            ToolWindowPane window = this.FindToolWindow(typeof(PlotterToolWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
-            {
-                throw new NotSupportedException(Resources.CanNotCreateWindow);
-            }
-            return window as PlotterToolWindow;
-        }
-
-        private object CreatePlotterService(IServiceContainer container, Type serviceType)
-        {
-            // this gets called and returns a new bus instance
-            if (serviceType != typeof(SPlotter2DService)) { return null; }
-            return new Plotter2DService(FindPlotterToolWindow());
-        }
         #endregion
 
     }
