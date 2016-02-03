@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="PlotterToolWindow">
     <Grid>
-        <Canvas Name="plot" Background="SkyBlue" Loaded="plot_Loaded"></Canvas>
+        <sharpGL:OpenGLControl OpenGLInitialized="OpenGLControl_OpenGLInitialized" OpenGLDraw="OpenGLControl_OpenGLDraw" />
     </Grid>
 </UserControl>

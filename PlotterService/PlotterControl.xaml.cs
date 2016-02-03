@@ -8,29 +8,33 @@ namespace PMC.PlotterService
     /// </summary>
     public partial class PlotterControl : UserControl
     {
-        Drawing.Plotter plotter = null;
+
+        readonly Drawing.GLPlotRenderer _renderer = new Drawing.GLPlotRenderer();
 
         public PlotterControl()
         {
             InitializeComponent();
         }
 
-        void plot_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (plotter == null)
-            {
-                plotter = new Drawing.Plotter(this.plot);
-            }
-        }
-
         public void AddSeries(IEnumerable<Drawing.PlotterPosition> series)
         {
-            plotter.AddPointSeries(series);
+            throw new System.NotImplementedException();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            plotter.ClearAllPoints();
+            throw new System.NotImplementedException();
         }
+
+        private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
+        {
+            _renderer.Draw(args);
+        }
+
+        private void OpenGLControl_OpenGLInitialized(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
+        {
+            _renderer.Initialize(args);
+        }
+
     }
 }

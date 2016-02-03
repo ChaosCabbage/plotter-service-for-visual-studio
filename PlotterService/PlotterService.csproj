@@ -56,6 +56,15 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
+    <Reference Include="SharpGL">
+      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.SceneGraph">
+      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.WPF">
+      <HintPath>..\packages\SharpGL.WPF.2.4.0.0\lib\net40\SharpGL.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -126,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawing\CanvasGraphicsController.cs" />
+    <Compile Include="Drawing\GLPlotRenderer.cs" />
     <Compile Include="Drawing\GridRenderer.cs" />
     <Compile Include="Drawing\MousePanningHandler.cs" />
     <Compile Include="Drawing\Plotter.cs" />
@@ -162,6 +172,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
