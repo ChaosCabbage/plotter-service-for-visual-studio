@@ -135,10 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawing\CanvasGraphicsController.cs" />
-    <Compile Include="Drawing\GLPlotRenderer.cs" />
-    <Compile Include="Drawing\GridRenderer.cs" />
+    <Compile Include="Drawing\CanvasGridRenderer.cs" />
+    <Compile Include="Drawing\GLGridRenderer.cs" />
+    <Compile Include="Drawing\IGridRenderer.cs" />
+    <Compile Include="Drawing\ISeriesRenderer.cs" />
     <Compile Include="Drawing\MousePanningHandler.cs" />
-    <Compile Include="Drawing\Plotter.cs" />
+    <Compile Include="Drawing\PlotterControls.cs" />
     <Compile Include="Drawing\Positions.cs" />
     <Compile Include="Drawing\SeriesRenderer.cs" />
     <Compile Include="Drawing\ZoomController.cs" />
