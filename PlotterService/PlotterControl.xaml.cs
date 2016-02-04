@@ -8,8 +8,8 @@ namespace PMC.PlotterService
     /// </summary>
     public partial class PlotterControl : UserControl
     {
-
-        readonly Drawing.GLPlotRenderer _renderer = new Drawing.GLPlotRenderer();
+        Drawing.PlotterControls _controls;
+        readonly Drawing.GLGridRenderer _renderer = new Drawing.GLGridRenderer();
 
         public PlotterControl()
         {
@@ -33,6 +33,10 @@ namespace PMC.PlotterService
 
         private void OpenGLControl_OpenGLInitialized(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
+            if (_controls == null)
+            {
+                _controls = new Drawing.PlotterControls(glControl, _renderer);
+            }
             _renderer.Initialize(args);
         }
 

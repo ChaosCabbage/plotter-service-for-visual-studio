@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace PMC.PlotterService.Drawing
 {
-    class SeriesRenderer
+    class SeriesRenderer : ISeriesRenderer
     {
         CanvasGraphicsController _graphics;
 

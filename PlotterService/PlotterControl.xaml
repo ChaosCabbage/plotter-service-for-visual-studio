@@ -10,6 +10,6 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Name="PlotterToolWindow">
     <Grid>
-        <sharpGL:OpenGLControl OpenGLInitialized="OpenGLControl_OpenGLInitialized" OpenGLDraw="OpenGLControl_OpenGLDraw" />
+        <sharpGL:OpenGLControl Name="glControl" OpenGLInitialized="OpenGLControl_OpenGLInitialized" OpenGLDraw="OpenGLControl_OpenGLDraw" />
     </Grid>
 </UserControl>

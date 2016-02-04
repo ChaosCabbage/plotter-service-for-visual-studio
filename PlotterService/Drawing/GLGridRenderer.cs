@@ -8,10 +8,31 @@ using System.Threading.Tasks;
 
 namespace PMC.PlotterService.Drawing
 {
-    class GLPlotRenderer
+    class GLGridRenderer : IGridRenderer
     {
+        IZoom _zoom;
+        Origin _origin;
+        IMousePositionService _lastMousePosition;
+
+        #region IGridRenderer members
+        public void Start(IZoom zoom, Origin o, IMousePositionService lastMousePosition)
+        {
+            _zoom = zoom;
+            _origin = o;
+            _lastMousePosition = lastMousePosition;
+        }
+
+        public void Draw()
+        {
+            // Does nothing: The other Draw() is called automatically every frame.
+        }
+
+        #endregion
+
         public void Initialize(OpenGLEventArgs args)
         {
+            if (_zoom == null || _origin == null || _lastMousePosition == null) throw new Exception("Start must be called first");
+
             OpenGL gl = args.OpenGL;
 
             // Background colour: Sky blue
@@ -32,8 +53,9 @@ namespace PMC.PlotterService.Drawing
 
             ClearScreen(gl);
 
-        }
 
+        }
+        
 
     }
 }

@@ -6,6 +6,9 @@ using System.Windows.Shapes;
 
 namespace PMC.PlotterService.Drawing
 {
+    /// <summary>
+    /// Abstraction around a WPF canvas, to provide and interface more like the HTML5 canvas.
+    /// </summary>
     class CanvasGraphicsController
     {
         Canvas _canvas;

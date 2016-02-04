@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace PMC.PlotterService.Drawing
 {
-    class GridRenderer
+    class ColourScheme
     {
-        CanvasGraphicsController _graphics;
+        static public readonly Brush Background = Brushes.SkyBlue;
+        static public readonly Brush MajorAxis = Brushes.White;
+        static public readonly Brush MinorAxis = Brushes.Lavender;
+        static public readonly Brush Text = Brushes.Black;
+        static public readonly Brush SnapGrid = Brushes.Blue;
+    }
 
-        readonly IZoom _zoom;
-        readonly Origin _origin;
-        readonly IMousePositionService _mouse;
+    class CanvasGridRenderer : IGridRenderer
+    {
+        readonly CanvasGraphicsController _graphics;
 
-        public GridRenderer(Canvas c, IZoom zoom, Origin o, IMousePositionService mouse)
+        IZoom _zoom;
+        Origin _origin;
+        IMousePositionService _mouse;
+
+        public CanvasGridRenderer(Canvas c)
         {
             _graphics = new CanvasGraphicsController(c);
+        }
+
+        public void Start(IZoom zoom, Origin o, IMousePositionService mouse)
+        {
             _zoom = zoom;
             _origin = o;
             _mouse = mouse;
