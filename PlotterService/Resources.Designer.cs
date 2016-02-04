@@ -70,11 +70,52 @@ namespace PMC.PlotterService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #version 150
+        ///
+        ///in float vertColour;
+        ///
+        ///out vec4 outColour;
+        ///
+        ///void main()
+        ///{
+        ///  outColour = vec4(vertColour, vertColour, vertColour, 1.0);
+        ///}
+        ///
+        ///.
+        /// </summary>
+        internal static string FragmentShader {
+            get {
+                return ResourceManager.GetString("FragmentShader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 2D Plotter.
         /// </summary>
         internal static string ToolWindowTitle {
             get {
                 return ResourceManager.GetString("ToolWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 150
+        ///
+        ///in vec2 position; 
+        ///in float colour;
+        ///
+        ///out float vertColour;
+        ///
+        ///void main() 
+        ///{
+        ///  vertColour = colour;
+        ///  gl_Position = vec4(position.x, -position.y, 0.0, 1.0); 
+        ///}
+        ///.
+        /// </summary>
+        internal static string VertexShader {
+            get {
+                return ResourceManager.GetString("VertexShader", resourceCulture);
             }
         }
     }

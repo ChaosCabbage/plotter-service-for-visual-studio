@@ -28,7 +28,7 @@ namespace PMC.PlotterService
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
-            _renderer.Draw(args);
+            _renderer.Draw();
         }
 
         private void OpenGLControl_OpenGLInitialized(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
