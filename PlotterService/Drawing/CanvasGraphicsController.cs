@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace PMC.PlotterService.Drawing
 {
     /// <summary>
     /// Abstraction around a WPF canvas, to provide and interface more like the HTML5 canvas.
     /// </summary>
-    class CanvasGraphicsController
+    class CanvasGraphicsController : ISimpleGraphics
     {
         Canvas _canvas;
 
@@ -152,6 +154,19 @@ namespace PMC.PlotterService.Drawing
             }
         }
 
+        public void DrawLines(IEnumerable<CanvasPosition> points, double lineWidth, Brush style)
+        {
+            if (points.Count() == 0)
+            {
+                return;
+            }
 
+            CanvasPosition previous = points.First();
+            foreach (var p in points)
+            {
+                DrawLine(previous, p, lineWidth, style);
+                previous = p;
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace PMC.PlotterService.Drawing
 {
     class PlotterControls
     {
-        readonly IGridRenderer _gridRenderer;
+        readonly CanvasGridRenderer _gridRenderer;
 
         Origin _origin = new Origin();
         IZoom _zoom;
@@ -35,9 +35,9 @@ namespace PMC.PlotterService.Drawing
             }
         }
         
-        public PlotterControls(FrameworkElement c, IGridRenderer renderer)
+        public PlotterControls(FrameworkElement c, CanvasGridRenderer graphics)
         {
-            _gridRenderer = renderer;
+            _gridRenderer = graphics;
             _origin.Point = new CanvasPosition
             {
                 X = c.ActualWidth / 2,

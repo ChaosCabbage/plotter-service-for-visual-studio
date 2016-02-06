@@ -13,17 +13,17 @@ namespace PMC.PlotterService.Drawing
         static public readonly Brush SnapGrid = Brushes.Blue;
     }
 
-    class CanvasGridRenderer : IGridRenderer
+    class CanvasGridRenderer
     {
-        readonly CanvasGraphicsController _graphics;
+        readonly ISimpleGraphics _graphics;
 
         IZoom _zoom;
         Origin _origin;
         IMousePositionService _mouse;
 
-        public CanvasGridRenderer(Canvas c)
+        public CanvasGridRenderer(ISimpleGraphics g)
         {
-            _graphics = new CanvasGraphicsController(c);
+            _graphics = g;
         }
 
         public void Start(IZoom zoom, Origin o, IMousePositionService mouse)
@@ -42,34 +42,22 @@ namespace PMC.PlotterService.Drawing
 
         private void DrawMousePos()
         {
-            //          DrawSnapPoint();
             DrawCoordinates();
         }
 
         private void DrawCoordinates()
         {
-            //           var snapped = adjustedPos(pos);
             var snapped = _mouse.PlotterPosition();
-            //           context.font = "16px Century Gothic";
-            //           context.fillStyle = colours.mouse.coordinates;
-            //            context.textAlign = "left";
-
 
             var x = snapped.X.ToString("F2");
             var y = snapped.Y.ToString("F2");
             _graphics.DrawCenteredText(
                 "(" + x + "," + y + ")",
-                new CanvasPosition { X = 1, Y = 1 },
+                new CanvasPosition { X = 1, Y = 15 },
                 "Century Gothic", 16
             );
         }
-
-        //        private void DrawSnapPoint(PlotterPosition pos) {	
-        //		    if (_snap.HasSnapped(pos)) {
-        //               var canvasPos = CanvasPosFromPicturePos(_snap.Snap(pos));
-        //              _graphics.DrawAlignedCircle(canvasPos, 5, ColourScheme.SnapGrid);
-        //		    } 
-        //	    }
+        
 
         private void DrawGrid()
         {
