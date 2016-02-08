@@ -10,6 +10,12 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Name="PlotterToolWindow">
     <Grid>
-        <sharpGL:OpenGLControl Name="glControl" OpenGLInitialized="OpenGLControl_OpenGLInitialized" OpenGLDraw="OpenGLControl_OpenGLDraw" />
+        <sharpGL:OpenGLControl 
+            Name="glControl" 
+            DrawFPS="False" 
+            FrameRate="20" 
+            RenderContextType="FBO" 
+            OpenGLInitialized="glControl_OpenGLInitialized" 
+            OpenGLDraw="glControl_OpenGLDraw"/>
     </Grid>
 </UserControl>

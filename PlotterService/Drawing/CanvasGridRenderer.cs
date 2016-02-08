@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -6,11 +8,12 @@ namespace PMC.PlotterService.Drawing
 {
     class ColourScheme
     {
-        static public readonly Brush Background = Brushes.SkyBlue;
-        static public readonly Brush MajorAxis = Brushes.White;
-        static public readonly Brush MinorAxis = Brushes.Lavender;
-        static public readonly Brush Text = Brushes.Black;
-        static public readonly Brush SnapGrid = Brushes.Blue;
+        static public readonly Color Background = Colors.SkyBlue;
+        static public readonly Color MajorAxis = Colors.White;
+        static public readonly Color MinorAxis = Colors.Lavender;
+        static public readonly Color Text = Colors.Black;
+        static public readonly Color SnapGrid = Colors.Blue;
+        static public readonly Color Pictures = Colors.Red;
     }
 
     class CanvasGridRenderer
@@ -20,6 +23,8 @@ namespace PMC.PlotterService.Drawing
         IZoom _zoom;
         Origin _origin;
         IMousePositionService _mouse;
+
+        List<IEnumerable<PlotterPosition>> _pictures = new List<IEnumerable<PlotterPosition>>();
 
         public CanvasGridRenderer(ISimpleGraphics g)
         {
@@ -37,7 +42,31 @@ namespace PMC.PlotterService.Drawing
         {
             _graphics.Clear();
             DrawGrid();
+            DrawPictures();
             DrawMousePos();
+        }
+
+        public void AddPicture(IEnumerable<PlotterPosition> pic)
+        {
+            _pictures.Add(pic);
+        }
+
+        private void DrawPictures()
+        {
+            foreach (var pic in _pictures)
+            {
+                var localCoords =
+                    from point in pic
+                    select CanvasPosFromPicturePos(point);
+
+                _graphics.DrawLines(localCoords, 3, ColourScheme.Pictures);
+
+                if (localCoords.Count() != 0)
+                {
+                    var p0 = localCoords.First();
+                    _graphics.DrawCircle(p0, 3, ColourScheme.Pictures);
+                }
+            }
         }
 
         private void DrawMousePos()

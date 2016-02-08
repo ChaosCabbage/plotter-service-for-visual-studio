@@ -23,11 +23,6 @@ namespace PMC.PlotterService.Drawing
         {
             _gl = gl;
             _size = size;
-            
-            _gl.MatrixMode(OpenGL.GL_PROJECTION);
-            _gl.LoadIdentity();
-            _gl.Ortho(-1, 1, -1, 1, -1, 1);
-            _gl.Disable(OpenGL.GL_DEPTH_TEST);
         }
 
         private float[] GLPosition(CanvasPosition p)
@@ -58,11 +53,31 @@ namespace PMC.PlotterService.Drawing
         public void Clear()
         {
             _gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+
+            //I am setting a state where I am editing the projection matrix...
+            _gl.MatrixMode(OpenGL.GL_PROJECTION);
+
+            //Clearing the projection matrix...
+            _gl.LoadIdentity();
+
+            //Creating an orthoscopic view matrix going from -1 -> 1 in each
+            //dimension on the screen (x, y, z). 
+            _gl.Ortho(-1, 1, -1, 1, -1, 1);
+
+            //Now editing the model-view matrix.
+            _gl.MatrixMode(OpenGL.GL_MODELVIEW);
+
+            //Clearing the model-view matrix.
+            _gl.LoadIdentity();
+
+            //Disabling the depth test (z will not be used to tell what object 
+            //will be shown above another, only the order in which I draw them.)
+            _gl.Disable(OpenGL.GL_DEPTH_TEST);
         }
 
-        public void DrawFullVertical(double x, double lineWidth, Brush lineStyle)
+        public void DrawFullVertical(double x, double lineWidth, Color colour)
         {
-            _gl.Color(1.0f, 1.0f, 1.0f); //White
+            _gl.Color(colour.R, colour.G, colour.B, colour.A); 
             _gl.LineWidth((float)lineWidth);
 
             _gl.Begin(OpenGL.GL_LINES);
@@ -71,9 +86,9 @@ namespace PMC.PlotterService.Drawing
             _gl.End();
         }
 
-        public void DrawCircle(CanvasPosition centre, double radius, Brush style)
+        public void DrawCircle(CanvasPosition centre, double radius, Color colour)
         {
-            _gl.Color(1.0f, 1.0f, 1.0f); //White
+            _gl.Color(colour.R, colour.G, colour.B, colour.A); 
             _gl.PointSize((float)radius*2);
 
             _gl.Begin(OpenGL.GL_POINTS);
@@ -86,9 +101,9 @@ namespace PMC.PlotterService.Drawing
             _gl.DrawText((int)p.X, (int)(Height() - p.Y), 0, 0, 0, font, size, text);
         }
 
-        public void DrawFullHorizontal(double y, double lineWidth, Brush lineStyle)
+        public void DrawFullHorizontal(double y, double lineWidth, Color colour)
         {
-            _gl.Color(1.0f, 1.0f, 1.0f); //White
+            _gl.Color(colour.R, colour.G, colour.B, colour.A); 
             _gl.LineWidth((float)lineWidth);
 
             _gl.Begin(OpenGL.GL_LINES);
@@ -97,9 +112,9 @@ namespace PMC.PlotterService.Drawing
             _gl.End();
         }
 
-        public void DrawLine(CanvasPosition start, CanvasPosition end, double lineWidth, Brush style)
+        public void DrawLine(CanvasPosition start, CanvasPosition end, double lineWidth, Color colour)
         {
-            _gl.Color(1.0f, 1.0f, 1.0f); //White
+            _gl.Color(colour.R, colour.G, colour.B, colour.A); 
             _gl.LineWidth((float)lineWidth);
 
             _gl.Begin(OpenGL.GL_LINES);
@@ -108,7 +123,7 @@ namespace PMC.PlotterService.Drawing
             _gl.End();
         }
 
-        public void DrawCross(CanvasPosition position, double crossSize, double lineWidth, Brush style)
+        public void DrawCross(CanvasPosition position, double crossSize, double lineWidth, Color colour)
         {
             var leftX = position.X - crossSize;
             var rightX = position.X + crossSize;
@@ -119,17 +134,17 @@ namespace PMC.PlotterService.Drawing
             DrawLine(
                 new CanvasPosition { X = leftX, Y = topY },
                 new CanvasPosition { X = rightX, Y = bottomY },
-                lineWidth, style);
+                lineWidth, colour);
 
             DrawLine(
                 new CanvasPosition { X = leftX, Y = bottomY },
                 new CanvasPosition { X = rightX, Y = topY },
-                lineWidth, style);
+                lineWidth, colour);
         }
 
-        public void DrawAlignedCircle(CanvasPosition centre, double radius, Brush style)
+        public void DrawAlignedCircle(CanvasPosition centre, double radius, Color colour)
         {
-            DrawCircle(centre, radius, style);
+            DrawCircle(centre, radius, colour);
         }
 
         public void DrawCenteredText(string text, CanvasPosition p, string font, int size)
@@ -142,9 +157,9 @@ namespace PMC.PlotterService.Drawing
             DrawText(text, p, font, size);
         }
 
-        public void DrawLines(IEnumerable<CanvasPosition> points, double lineWidth, Brush style)
+        public void DrawLines(IEnumerable<CanvasPosition> points, double lineWidth, Color colour)
         {
-            _gl.Color(1.0f, 1.0f, 1.0f); //White
+            _gl.Color(colour.R, colour.G, colour.B, colour.A); 
             _gl.LineWidth((float)lineWidth);
 
             _gl.Begin(OpenGL.GL_LINE_STRIP);

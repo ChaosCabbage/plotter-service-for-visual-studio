@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <FileUpgradeFlags>
@@ -157,12 +157,10 @@
     <Compile Include="Drawing\GLImmediateGraphicsController.cs" />
     <Compile Include="Drawing\CanvasGraphicsController.cs" />
     <Compile Include="Drawing\CanvasGridRenderer.cs" />
-    <Compile Include="Drawing\ISeriesRenderer.cs" />
     <Compile Include="Drawing\ISimpleGraphics.cs" />
     <Compile Include="Drawing\MousePanningHandler.cs" />
     <Compile Include="Drawing\PlotterControls.cs" />
     <Compile Include="Drawing\Positions.cs" />
-    <Compile Include="Drawing\SeriesRenderer.cs" />
     <Compile Include="Drawing\ZoomController.cs" />
     <Compile Include="IPlotter2DService.cs" />
     <Compile Include="Plotter2DService.cs" />

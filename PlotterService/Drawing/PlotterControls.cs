@@ -34,15 +34,20 @@ namespace PMC.PlotterService.Drawing
                 return _convert(P);
             }
         }
-        
-        public PlotterControls(FrameworkElement c, CanvasGridRenderer graphics)
+
+        private void Recentre(FrameworkElement c)
         {
-            _gridRenderer = graphics;
             _origin.Point = new CanvasPosition
             {
                 X = c.ActualWidth / 2,
                 Y = c.ActualHeight / 2
             };
+        }
+
+        public PlotterControls(FrameworkElement c, CanvasGridRenderer graphics)
+        {
+            _gridRenderer = graphics;
+            Recentre(c);
 
             var zoomLogic = new ZoomLogic();
             _zoom = zoomLogic;
@@ -58,6 +63,7 @@ namespace PMC.PlotterService.Drawing
             c.SizeChanged +=
                 (object sender, System.Windows.SizeChangedEventArgs e) =>
                 {
+                    Recentre(c);
                     Draw();
                 };
 
