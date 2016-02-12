@@ -3,6 +3,9 @@ using System.Windows.Media;
 
 namespace PMC.PlotterService.Drawing
 {
+    /// <summary>
+    /// A 2D immediate graphics interface, similar to a HTML5 canvas
+    /// </summary>
     interface ISimpleGraphics
     {
         void Clear();

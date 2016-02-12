@@ -65,30 +65,4 @@ namespace PMC.PlotterService.Drawing
         }
 
     }
-
-    /// <summary>
-    /// A helpful class to wrap around the PointConversions when always using the same 
-    /// zoom and origin.
-    /// </summary>
-    class CoordinateConverter : ICoordinateConverter
-    {
-        private readonly IZoom _zoom;
-        private readonly Origin _origin;
-
-        public CoordinateConverter(IZoom zoom, Origin o)
-        {
-            _zoom = zoom;
-            _origin = o;
-        }
-
-        public PlotterPosition PlotterFromCanvas(CanvasPosition pos)
-        {
-            return PointConversions.PlotterFromCanvas(pos, _zoom.Scale(), _origin.Point);
-        }
-
-        public CanvasPosition CanvasFromPlotter(PlotterPosition pos)
-        {
-            return PointConversions.CanvasFromPlotter(pos, _zoom.Scale(), _origin.Point);
-        }
-    }
 }

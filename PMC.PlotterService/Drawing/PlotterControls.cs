@@ -64,14 +64,12 @@ namespace PMC.PlotterService.Drawing
                 (object sender, System.Windows.SizeChangedEventArgs e) =>
                 {
                     Recentre(c);
-                    Draw();
                 };
 
             c.MouseMove +=
                 (object sender, MouseEventArgs e) =>
                 {
                     _lastMousePosition.P = PointConversions.CanvasFromMouse(e.MouseDevice, c);
-                    Draw();
                 };
 
             c.MouseWheel +=
@@ -88,19 +86,10 @@ namespace PMC.PlotterService.Drawing
                         zoomer.ZoomOut();
                     }
 
-                    Draw();
                     e.Handled = true;
                 };
 
-            new MousePanningHandler(_origin, _zoom, Draw).AddDragHandler(c);
-
-
-            Draw();
-        }
-
-        private void Draw()
-        {
-            _gridRenderer.Draw();
+            new MousePanningHandler(_origin, _zoom).AddDragHandler(c);
         }
         
         private void FocusPosition(CanvasPosition canvas_pos, PlotterPosition picture_pos)
