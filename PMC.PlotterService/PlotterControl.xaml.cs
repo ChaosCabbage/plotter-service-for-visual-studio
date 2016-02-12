@@ -25,7 +25,7 @@ namespace PMC.PlotterService
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            _grid.ClearPictures();
         }
 
         private void glControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)

@@ -51,6 +51,11 @@ namespace PMC.PlotterService.Drawing
             _pictures.Add(pic);
         }
 
+        public void ClearPictures()
+        {
+            _pictures.Clear();
+        }
+
         private void DrawPictures()
         {
             foreach (var pic in _pictures)
