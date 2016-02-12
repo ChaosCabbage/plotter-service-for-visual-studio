@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PMC.PlotterService.Drawing
@@ -17,7 +17,7 @@ namespace PMC.PlotterService.Drawing
             _redraw = redraw;
         }
 
-        public void AddDragHandler(Canvas canvas)
+        public void AddDragHandler(UIElement canvas)
         {
             MouseButtonEventHandler startDragging = null;
             startDragging = (object sender, MouseButtonEventArgs downEvent) =>

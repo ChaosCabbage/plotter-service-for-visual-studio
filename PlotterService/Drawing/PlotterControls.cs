@@ -1,53 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace PMC.PlotterService.Drawing
 {
-    class ColourScheme
+    class PlotterControls
     {
-        static public readonly Brush Background = Brushes.SkyBlue;
-        static public readonly Brush MajorAxis = Brushes.White;
-        static public readonly Brush MinorAxis = Brushes.Lavender;
-        static public readonly Brush Text = Brushes.Black;
-        static public readonly Brush SnapGrid = Brushes.Blue;
-    }
-
-    class Plotter
-    {
-        GridRenderer _gridRenderer;
-        SeriesRenderer _seriesRenderer;
+        readonly CanvasGridRenderer _gridRenderer;
 
         Origin _origin = new Origin();
         IZoom _zoom;
 
         MousePositionService _lastMousePosition;
 
-        class CoordinateConverter : ICoordinateConverter
-        {
-            private readonly IZoom _zoom;
-            private readonly Origin _origin;
-
-            public CoordinateConverter(IZoom zoom, Origin o)
-            {
-                _zoom = zoom;
-                _origin = o;
-            }
-
-            public PlotterPosition PlotterFromCanvas(CanvasPosition pos)
-            {
-                return PointConversions.PlotterFromCanvas(pos, _zoom.Scale(), _origin.Point);
-            }
-
-            public CanvasPosition CanvasFromPlotter(PlotterPosition pos)
-            {
-                return PointConversions.CanvasFromPlotter(pos, _zoom.Scale(), _origin.Point);
-            }
-
-        }
         class MousePositionService : IMousePositionService
         {
             public CanvasPosition P;
@@ -70,23 +35,26 @@ namespace PMC.PlotterService.Drawing
             }
         }
 
-        List<IEnumerable<PlotterPosition>> _pointSerieses = new List<IEnumerable<PlotterPosition>>();
-
-        public Plotter(Canvas c)
+        private void Recentre(FrameworkElement c)
         {
             _origin.Point = new CanvasPosition
             {
                 X = c.ActualWidth / 2,
                 Y = c.ActualHeight / 2
             };
+        }
+
+        public PlotterControls(FrameworkElement c, CanvasGridRenderer graphics)
+        {
+            _gridRenderer = graphics;
+            Recentre(c);
 
             var zoomLogic = new ZoomLogic();
             _zoom = zoomLogic;
 
             _lastMousePosition = new MousePositionService(this.PicturePosFromCanvasPos);
 
-            _gridRenderer = new GridRenderer(c, _zoom, _origin, _lastMousePosition);
-            _seriesRenderer = new SeriesRenderer(c, new CoordinateConverter(_zoom, _origin));
+            _gridRenderer.Start(_zoom, _origin, _lastMousePosition);
 
             var zoomer = new ZoomController(zoomLogic, this.FocusPosition, _lastMousePosition);
 
@@ -95,6 +63,7 @@ namespace PMC.PlotterService.Drawing
             c.SizeChanged +=
                 (object sender, System.Windows.SizeChangedEventArgs e) =>
                 {
+                    Recentre(c);
                     Draw();
                 };
 
@@ -129,32 +98,11 @@ namespace PMC.PlotterService.Drawing
             Draw();
         }
 
-        public void AddPointSeries(IEnumerable<PlotterPosition> series)
-        {
-            _pointSerieses.Add(series);
-            Draw();
-        }
-
-        public void ClearAllPoints()
-        {
-            _pointSerieses.Clear();
-            Draw();
-        }
-
         private void Draw()
         {
             _gridRenderer.Draw();
-            DrawSerieses();
         }
-
-        private void DrawSerieses()
-        {
-            foreach (var series in _pointSerieses)
-            {
-                _seriesRenderer.Draw(series);
-            }
-        }
-
+        
         private void FocusPosition(CanvasPosition canvas_pos, PlotterPosition picture_pos)
         {
             var focus_pos = CanvasPosFromPicturePos(picture_pos);
