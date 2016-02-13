@@ -1,19 +1,38 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace PMC.PlotterService.Drawing
 {
-    class GridRenderer
+    class ColourScheme
     {
-        CanvasGraphicsController _graphics;
+        static public readonly Color Background = Colors.SkyBlue;
+        static public readonly Color MajorAxis = Colors.White;
+        static public readonly Color MinorAxis = Colors.Lavender;
+        static public readonly Color Text = Colors.Black;
+        static public readonly Color SnapGrid = Colors.Blue;
+        static public readonly Color Pictures = Colors.Red;
+    }
 
-        readonly IZoom _zoom;
-        readonly Origin _origin;
-        readonly IMousePositionService _mouse;
+    class CanvasGridRenderer
+    {
+        readonly ISimpleGraphics _graphics;
 
-        public GridRenderer(Canvas c, IZoom zoom, Origin o, IMousePositionService mouse)
+        IZoom _zoom;
+        Origin _origin;
+        IMousePositionService _mouse;
+
+        List<IEnumerable<PlotterPosition>> _pictures = new List<IEnumerable<PlotterPosition>>();
+
+        public CanvasGridRenderer(ISimpleGraphics g)
         {
-            _graphics = new CanvasGraphicsController(c);
+            _graphics = g;
+        }
+
+        public void Start(IZoom zoom, Origin o, IMousePositionService mouse)
+        {
             _zoom = zoom;
             _origin = o;
             _mouse = mouse;
@@ -23,39 +42,56 @@ namespace PMC.PlotterService.Drawing
         {
             _graphics.Clear();
             DrawGrid();
+            DrawPictures();
             DrawMousePos();
+        }
+
+        public void AddPicture(IEnumerable<PlotterPosition> pic)
+        {
+            _pictures.Add(pic);
+        }
+
+        public void ClearPictures()
+        {
+            _pictures.Clear();
+        }
+
+        private void DrawPictures()
+        {
+            foreach (var pic in _pictures)
+            {
+                var localCoords =
+                    from point in pic
+                    select CanvasPosFromPicturePos(point);
+
+                _graphics.DrawLines(localCoords, 3, ColourScheme.Pictures);
+
+                if (localCoords.Count() != 0)
+                {
+                    var p0 = localCoords.First();
+                    _graphics.DrawCircle(p0, 3, ColourScheme.Pictures);
+                }
+            }
         }
 
         private void DrawMousePos()
         {
-            //          DrawSnapPoint();
             DrawCoordinates();
         }
 
         private void DrawCoordinates()
         {
-            //           var snapped = adjustedPos(pos);
             var snapped = _mouse.PlotterPosition();
-            //           context.font = "16px Century Gothic";
-            //           context.fillStyle = colours.mouse.coordinates;
-            //            context.textAlign = "left";
-
 
             var x = snapped.X.ToString("F2");
             var y = snapped.Y.ToString("F2");
             _graphics.DrawCenteredText(
                 "(" + x + "," + y + ")",
-                new CanvasPosition { X = 1, Y = 1 },
+                new CanvasPosition { X = 1, Y = 15 },
                 "Century Gothic", 16
             );
         }
-
-        //        private void DrawSnapPoint(PlotterPosition pos) {	
-        //		    if (_snap.HasSnapped(pos)) {
-        //               var canvasPos = CanvasPosFromPicturePos(_snap.Snap(pos));
-        //              _graphics.DrawAlignedCircle(canvasPos, 5, ColourScheme.SnapGrid);
-        //		    } 
-        //	    }
+        
 
         private void DrawGrid()
         {

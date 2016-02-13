@@ -19,10 +19,5 @@ namespace PMC.PlotterService
             _window.Show();
             _plotter.AddSeries(pointSeries);
         }
-
-        public void ClearAll()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -39,7 +39,7 @@ namespace PMC.PlotterService.Drawing
 
     static class PointConversions
     {
-        public static CanvasPosition CanvasFromMouse(MouseDevice m, Canvas c)
+        public static CanvasPosition CanvasFromMouse(MouseDevice m, System.Windows.IInputElement c)
         {
             var mousePos = m.GetPosition(c);
             return new CanvasPosition { X = mousePos.X, Y = mousePos.Y };

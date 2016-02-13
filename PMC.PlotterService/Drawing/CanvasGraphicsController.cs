@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace PMC.PlotterService.Drawing
 {
-    class CanvasGraphicsController
+    /// <summary>
+    /// Abstraction around a WPF canvas, to provide and interface more like the HTML5 canvas.
+    /// </summary>
+    class CanvasGraphicsController : ISimpleGraphics
     {
         Canvas _canvas;
 
@@ -36,12 +41,12 @@ namespace PMC.PlotterService.Drawing
             _canvas.Children.Clear();
         }
 
-        public void DrawFullVertical(double x, double lineWidth, Brush lineStyle)
+        public void DrawFullVertical(double x, double lineWidth, Color linecolour)
         {
             x = AlignedToPixel(x, lineWidth);
             var line = new Line();
             line.StrokeThickness = lineWidth;
-            line.Stroke = lineStyle;
+            line.Stroke = new SolidColorBrush(linecolour);
             line.X1 = x;
             line.Y1 = 0;
             line.X2 = x;
@@ -50,23 +55,23 @@ namespace PMC.PlotterService.Drawing
             DrawObject(line);
         }
 
-        public void DrawCircle(CanvasPosition centre, double radius, Brush style)
+        public void DrawCircle(CanvasPosition centre, double radius, Color colour)
         {
             var circle = new Ellipse();
             circle.Height = 2 * radius;
             circle.Width = 2 * radius;
-            circle.Stroke = style;
-            circle.Fill = style;
+            circle.Stroke = new SolidColorBrush(colour);
+            circle.Fill = new SolidColorBrush(colour);
             Canvas.SetLeft(circle, centre.X - radius);
             Canvas.SetTop(circle, centre.Y - radius);
             DrawObject(circle);
         }
 
-        public void DrawAlignedCircle(CanvasPosition centre, double radius, Brush style)
+        public void DrawAlignedCircle(CanvasPosition centre, double radius, Color colour)
         {
             centre.X = AlignedToPixel(centre.X, 2 * radius);
             centre.Y = AlignedToPixel(centre.Y, 2 * radius);
-            DrawCircle(centre, radius, style);
+            DrawCircle(centre, radius, colour);
         }
 
         public void DrawCenteredText(string text, CanvasPosition p, string font, int size)
@@ -91,12 +96,12 @@ namespace PMC.PlotterService.Drawing
             DrawObject(label);
         }
 
-        public void DrawFullHorizontal(double y, double lineWidth, Brush lineStyle)
+        public void DrawFullHorizontal(double y, double lineWidth, Color linecolour)
         {
             y = AlignedToPixel(y, lineWidth);
             var line = new Line();
             line.StrokeThickness = lineWidth;
-            line.Stroke = lineStyle;
+            line.Stroke = new SolidColorBrush(linecolour);
             line.X1 = 0;
             line.Y1 = y;
             line.X2 = Width();
@@ -105,11 +110,11 @@ namespace PMC.PlotterService.Drawing
             DrawObject(line);
         }
 
-        public void DrawLine(CanvasPosition start, CanvasPosition end, double lineWidth, Brush style)
+        public void DrawLine(CanvasPosition start, CanvasPosition end, double lineWidth, Color colour)
         {
             var line = new Line();
             line.StrokeThickness = lineWidth;
-            line.Stroke = style;
+            line.Stroke = new SolidColorBrush(colour);
             line.X1 = start.X;
             line.Y1 = start.Y;
             line.X2 = end.X;
@@ -118,7 +123,7 @@ namespace PMC.PlotterService.Drawing
             DrawObject(line);
         }
 
-        public void DrawCross(CanvasPosition position, double crossSize, double lineWidth, Brush style)
+        public void DrawCross(CanvasPosition position, double crossSize, double lineWidth, Color colour)
         {
             var leftX = position.X - crossSize;
             var rightX = position.X + crossSize;
@@ -129,12 +134,12 @@ namespace PMC.PlotterService.Drawing
             DrawLine(
                 new CanvasPosition { X = leftX, Y = topY },
                 new CanvasPosition { X = rightX, Y = bottomY },
-                lineWidth, style);
+                lineWidth, colour);
 
             DrawLine(
                 new CanvasPosition { X = leftX, Y = bottomY },
                 new CanvasPosition { X = rightX, Y = topY },
-                lineWidth, style);
+                lineWidth, colour);
         }
 
         private double AlignedToPixel(double value, double line_width)
@@ -149,6 +154,19 @@ namespace PMC.PlotterService.Drawing
             }
         }
 
+        public void DrawLines(IEnumerable<CanvasPosition> points, double lineWidth, Color colour)
+        {
+            if (points.Count() == 0)
+            {
+                return;
+            }
 
+            CanvasPosition previous = points.First();
+            foreach (var p in points)
+            {
+                DrawLine(previous, p, lineWidth, colour);
+                previous = p;
+            }
+        }
     }
 }

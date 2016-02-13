@@ -12,7 +12,5 @@ namespace PMC.PlotterService
     public interface IPlotter2DService 
     {
         void AddPointSeries(IEnumerable<Drawing.PlotterPosition> pointSeries);
-
-        void ClearAll();
     }
 }

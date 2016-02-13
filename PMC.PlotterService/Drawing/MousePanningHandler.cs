@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PMC.PlotterService.Drawing
@@ -8,16 +8,14 @@ namespace PMC.PlotterService.Drawing
     {
         readonly Origin _origin;
         readonly IZoom _zoom;
-        readonly Action _redraw;
 
-        public MousePanningHandler(Origin o, IZoom zoom, Action redraw)
+        public MousePanningHandler(Origin o, IZoom zoom)
         {
             _origin = o;
             _zoom = zoom;
-            _redraw = redraw;
         }
 
-        public void AddDragHandler(Canvas canvas)
+        public void AddDragHandler(UIElement canvas)
         {
             MouseButtonEventHandler startDragging = null;
             startDragging = (object sender, MouseButtonEventArgs downEvent) =>
@@ -44,8 +42,6 @@ namespace PMC.PlotterService.Drawing
                         X = originStartPos.X + (mouse_pos.X - dragStartPos.X),
                         Y = originStartPos.Y + (mouse_pos.Y - dragStartPos.Y),
                     };
-
-                    _redraw();
                 };
 
                 MouseButtonEventHandler mouseUpListener = null;
