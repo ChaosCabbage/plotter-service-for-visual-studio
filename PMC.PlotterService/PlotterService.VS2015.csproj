@@ -9,6 +9,21 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>12.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -61,6 +76,15 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
+    <Reference Include="SharpGL">
+      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.SceneGraph">
+      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.WPF">
+      <HintPath>..\packages\SharpGL.WPF.2.4.0.0\lib\net40\SharpGL.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -130,12 +154,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\GLImmediateGraphicsController.cs" />
     <Compile Include="Drawing\CanvasGraphicsController.cs" />
-    <Compile Include="Drawing\GridRenderer.cs" />
+    <Compile Include="Drawing\CanvasGridRenderer.cs" />
+    <Compile Include="Drawing\ISimpleGraphics.cs" />
     <Compile Include="Drawing\MousePanningHandler.cs" />
-    <Compile Include="Drawing\Plotter.cs" />
+    <Compile Include="Drawing\PlotterControls.cs" />
     <Compile Include="Drawing\Positions.cs" />
-    <Compile Include="Drawing\SeriesRenderer.cs" />
     <Compile Include="Drawing\ZoomController.cs" />
     <Compile Include="IPlotter2DService.cs" />
     <Compile Include="Plotter2DService.cs" />
@@ -167,6 +192,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -191,7 +217,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
