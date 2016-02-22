@@ -10,19 +10,20 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="169*"/>
-            <ColumnDefinition Width="27*"/>
+            <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <sharpGL:OpenGLControl 
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             Name="glControl" 
             DrawFPS="False"
             RenderContextType="FBO" 
             OpenGLInitialized="glControl_OpenGLInitialized" 
             OpenGLDraw="glControl_OpenGLDraw" />
-        <Grid Grid.Column="1" Background="SteelBlue">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="47"/>
+                <RowDefinition/>
+                <RowDefinition Height="57"/>
             </Grid.RowDefinitions>
             <Button 
                 Margin="10" 
