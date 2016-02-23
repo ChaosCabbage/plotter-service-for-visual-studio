@@ -9,8 +9,8 @@
              Name="PlotterToolWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="11*" MinWidth="80"/>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <sharpGL:OpenGLControl 
             Grid.Column="0"
@@ -23,7 +23,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="66"/>
+                <RowDefinition Height="57"/>
             </Grid.RowDefinitions>
             <Button 
                 FontSize="14"
