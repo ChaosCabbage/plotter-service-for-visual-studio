@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PMC.PlotterService
 {
@@ -14,10 +13,16 @@ namespace PMC.PlotterService
             _plotter = window.Content as PlotterControl;
         }
 
-        public void AddPointSeries(IEnumerable<Drawing.PlotterPosition> pointSeries)
+        public void AddPoint(Geometry.Position point)
         {
+            _plotter.GeometryCollection.Points.Add(point);
             _window.Show();
-            _plotter.AddSeries(pointSeries);
+        }
+
+        public void AddPolyline(Geometry.Polyline polyline)
+        {
+            _plotter.GeometryCollection.Polylines.Add(polyline);
+            _window.Show();
         }
     }
 }

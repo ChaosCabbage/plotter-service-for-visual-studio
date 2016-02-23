@@ -48,10 +48,10 @@ namespace PMC.PlotterService.Drawing
     class ZoomController : IZoomController
     {
         ZoomLogic _zoom;
-        Action<CanvasPosition, PlotterPosition> _focus;
+        Action<CanvasPosition, Geometry.Position> _focus;
         IMousePositionService _mouse;
 
-        public ZoomController(ZoomLogic zoom, Action<CanvasPosition, PlotterPosition> focusCanvas, IMousePositionService mouse)
+        public ZoomController(ZoomLogic zoom, Action<CanvasPosition, Geometry.Position> focusCanvas, IMousePositionService mouse)
         {
             _zoom = zoom;
             _focus = focusCanvas;

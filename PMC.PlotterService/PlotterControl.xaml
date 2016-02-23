@@ -6,7 +6,9 @@
              xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="357"
-             Name="PlotterToolWindow">
+             Name="PlotterToolWindow"
+             x:ClassModifier="internal">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="169*"/>

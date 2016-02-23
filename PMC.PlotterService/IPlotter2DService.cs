@@ -11,6 +11,7 @@ namespace PMC.PlotterService
     [Guid(GuidList.guidPlotter2DServiceString)]
     public interface IPlotter2DService 
     {
-        void AddPointSeries(IEnumerable<Drawing.PlotterPosition> pointSeries);
+        void AddPolyline(Geometry.Polyline polyline);
+        void AddPoint(Geometry.Position point);
     }
 }

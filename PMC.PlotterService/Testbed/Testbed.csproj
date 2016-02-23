@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DrawPointsCommand.cs" />
     <Compile Include="DrawSquareCommand.cs" />
     <Compile Include="GeometryCommandsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,7 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="index.html" />
+    <Content Include="Resources\DrawPointsCommand.png" />
     <Content Include="Resources\DrawSquareCommand.png" />
     <Content Include="Resources\DrawSquareCommandPackage.ico" />
     <Content Include="stylesheet.css" />

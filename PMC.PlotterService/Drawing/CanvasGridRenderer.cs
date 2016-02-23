@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
+using PMC.PlotterService.Geometry;
 
 namespace PMC.PlotterService.Drawing
 {
@@ -24,8 +25,6 @@ namespace PMC.PlotterService.Drawing
         Origin _origin;
         IMousePositionService _mouse;
 
-        List<IEnumerable<PlotterPosition>> _pictures = new List<IEnumerable<PlotterPosition>>();
-
         public CanvasGridRenderer(ISimpleGraphics g)
         {
             _graphics = g;
@@ -38,30 +37,30 @@ namespace PMC.PlotterService.Drawing
             _mouse = mouse;
         }
 
-        public void Draw()
+        public void Draw(Geometry.Collection geometry)
         {
             _graphics.Clear();
             DrawGrid();
-            DrawPictures();
+            DrawPictures(geometry.Polylines);
+            DrawPoints(geometry.Points);
             DrawMousePos();
         }
 
-        public void AddPicture(IEnumerable<PlotterPosition> pic)
+        private void DrawPoints(IEnumerable<Position> points)
         {
-            _pictures.Add(pic);
+            foreach (var p in points)
+            {
+                var localCoords = CanvasPosFromPicturePos(p);
+                _graphics.DrawCross(localCoords, 5, 3, ColourScheme.Pictures);
+            }
         }
 
-        public void ClearPictures()
+        private void DrawPictures(IEnumerable<Geometry.Polyline> pics)
         {
-            _pictures.Clear();
-        }
-
-        private void DrawPictures()
-        {
-            foreach (var pic in _pictures)
+            foreach (var pic in pics)
             {
                 var localCoords =
-                    from point in pic
+                    from point in pic.Points
                     select CanvasPosFromPicturePos(point);
 
                 _graphics.DrawLines(localCoords, 3, ColourScheme.Pictures);
@@ -228,12 +227,12 @@ namespace PMC.PlotterService.Drawing
             return _zoom.Scale();
         }
 
-        private PlotterPosition PicturePosFromCanvasPos(CanvasPosition pos)
+        private Geometry.Position PicturePosFromCanvasPos(CanvasPosition pos)
         {
             return PointConversions.PlotterFromCanvas(pos, ZoomScale(), _origin.Point);
         }
 
-        private CanvasPosition CanvasPosFromPicturePos(PlotterPosition pos)
+        private CanvasPosition CanvasPosFromPicturePos(Geometry.Position pos)
         {
             return PointConversions.CanvasFromPlotter(pos, ZoomScale(), _origin.Point);
         }

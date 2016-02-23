@@ -7,30 +7,32 @@ namespace PMC.PlotterService
     /// <summary>
     /// Interaction logic for PlotterControl.xaml
     /// </summary>
-    public partial class PlotterControl : UserControl
+    internal partial class PlotterControl : UserControl
     {
         Drawing.PlotterControls _controls;
         Drawing.CanvasGridRenderer _grid;
         Drawing.GLImmediateGraphicsController _graphics;
+
+        Geometry.Collection _geometryItems = new Geometry.Collection();
 
         public PlotterControl()
         {
             InitializeComponent();
         }
 
-        public void AddSeries(IEnumerable<Drawing.PlotterPosition> series)
+        public Geometry.Collection GeometryCollection
         {
-            _grid.AddPicture(series);
+            get { return _geometryItems; }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            _grid.ClearPictures();
+            _geometryItems = new Geometry.Collection();
         }
 
         private void glControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
-            _grid.Draw();          
+            _grid.Draw(_geometryItems);
         }
 
         class GLThingSize : Drawing.GLImmediateGraphicsController.ICanvasSize

@@ -17,9 +17,9 @@ namespace PMC.PlotterService.Drawing
         {
             public CanvasPosition P;
 
-            Func<CanvasPosition, PlotterPosition> _convert;
+            Func<CanvasPosition, Geometry.Position> _convert;
 
-            public MousePositionService(Func<CanvasPosition, PlotterPosition> conversion)
+            public MousePositionService(Func<CanvasPosition, Geometry.Position> conversion)
             {
                 _convert = conversion;
             }
@@ -29,7 +29,7 @@ namespace PMC.PlotterService.Drawing
                 return P;
             }
 
-            public PlotterPosition PlotterPosition()
+            public Geometry.Position PlotterPosition()
             {
                 return _convert(P);
             }
@@ -92,7 +92,7 @@ namespace PMC.PlotterService.Drawing
             new MousePanningHandler(_origin, _zoom).AddDragHandler(c);
         }
         
-        private void FocusPosition(CanvasPosition canvas_pos, PlotterPosition picture_pos)
+        private void FocusPosition(CanvasPosition canvas_pos, Geometry.Position picture_pos)
         {
             var focus_pos = CanvasPosFromPicturePos(picture_pos);
             var dx = canvas_pos.X - focus_pos.X;
@@ -105,12 +105,12 @@ namespace PMC.PlotterService.Drawing
             };
         }
 
-        private PlotterPosition PicturePosFromCanvasPos(CanvasPosition pos)
+        private Geometry.Position PicturePosFromCanvasPos(CanvasPosition pos)
         {
             return PointConversions.PlotterFromCanvas(pos, _zoom.Scale(), _origin.Point);
         }
 
-        private CanvasPosition CanvasPosFromPicturePos(PlotterPosition pos)
+        private CanvasPosition CanvasPosFromPicturePos(Geometry.Position pos)
         {
             return PointConversions.CanvasFromPlotter(pos, _zoom.Scale(), _origin.Point);
         }

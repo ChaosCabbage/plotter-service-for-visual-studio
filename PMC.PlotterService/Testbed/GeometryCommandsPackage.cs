@@ -68,6 +68,7 @@ namespace Testbed
         {
             DrawSquareCommand.Initialize(this);
             base.Initialize();
+            DrawPointsCommand.Initialize(this);
         }
 
         #endregion

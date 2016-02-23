@@ -3,13 +3,12 @@ using System.Windows.Input;
 
 namespace PMC.PlotterService.Drawing
 {
-    public struct PlotterPosition { public double X; public double Y; }
     struct CanvasPosition { public double X; public double Y; }
 
     interface IMousePositionService
     {
         CanvasPosition CanvasPosition();
-        PlotterPosition PlotterPosition();
+        Geometry.Position PlotterPosition();
     }
 
     interface ICanvasFocuser
@@ -20,13 +19,13 @@ namespace PMC.PlotterService.Drawing
         /// </summary>
         /// <param name="c">Canvas coordinate</param>
         /// <param name="p">Plotter diagram coordinate</param>
-        void FocusCanvas(CanvasPosition c, PlotterPosition p);
+        void FocusCanvas(CanvasPosition c, Geometry.Position p);
     }
 
     interface ICoordinateConverter
     {
-        PlotterPosition PlotterFromCanvas(CanvasPosition pos);
-        CanvasPosition CanvasFromPlotter(PlotterPosition pos);
+        Geometry.Position PlotterFromCanvas(CanvasPosition pos);
+        CanvasPosition CanvasFromPlotter(Geometry.Position pos);
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ namespace PMC.PlotterService.Drawing
         }
 
 
-        public static CanvasPosition CanvasFromPlotter(PlotterPosition point, double zoomScale, CanvasPosition origin)
+        public static CanvasPosition CanvasFromPlotter(Geometry.Position point, double zoomScale, CanvasPosition origin)
         {
             return new CanvasPosition
             {
@@ -55,9 +54,9 @@ namespace PMC.PlotterService.Drawing
             };
         }
 
-        public static PlotterPosition PlotterFromCanvas(CanvasPosition point, double zoomScale, CanvasPosition origin)
+        public static Geometry.Position PlotterFromCanvas(CanvasPosition point, double zoomScale, CanvasPosition origin)
         {
-            return new PlotterPosition
+            return new Geometry.Position
             {
                 X = (point.X - origin.X) / zoomScale,
                 Y = (origin.Y - point.Y) / zoomScale

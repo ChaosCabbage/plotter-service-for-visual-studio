@@ -15,10 +15,10 @@
         defining some of the constants that we will use inside the file. -->
 
   <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
-  <Extern href="stdidcmd.h"/>
+  <Extern href="stdidcmd.h" />
 
   <!--This header contains the command ids for the menus provided by the shell. -->
-  <Extern href="vsshlids.h"/>
+  <Extern href="vsshlids.h" />
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
@@ -37,7 +37,7 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidGeometryCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
       </Group>
     </Groups>
 
@@ -52,11 +52,18 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidGeometryCommandPackageCmdSet" id="DrawSquareCommandId" priority="0x0100" type="Button">
+      <Button guid="guidGeometryCommandPackageCmdSet" id="cmdidDrawSquareCommandId" priority="0x0100" type="Button">
         <Parent guid="guidGeometryCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Plotter service test: Draw a square</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidGeometryCommandPackageCmdSet" id="cmdidDrawPointsCommand" priority="0x0100" type="Button">
+        <Parent guid="guidGeometryCommandPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <Strings>
+          <ButtonText>Invoke DrawPointsCommand</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -68,7 +75,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\DrawSquareCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages" href="Resources\DrawSquareCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -79,10 +86,11 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidGeometryCommandPackageCmdSet" value="{f41b794e-3749-42c3-a68b-30e1adafdc37}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="DrawSquareCommandId" value="0x0100" />
+      <IDSymbol name="cmdidDrawSquareCommandId" value="0x0100" />
+      <IDSymbol value="4129" name="cmdidDrawPointsCommand" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{3665ba20-7288-4a91-a906-4f920bb9ba8a}" >
+    <GuidSymbol name="guidImages" value="{3665ba20-7288-4a91-a906-4f920bb9ba8a}">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
@@ -90,5 +98,6 @@
       <IDSymbol name="bmpPicArrows" value="5" />
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
+  
   </Symbols>
 </CommandTable>

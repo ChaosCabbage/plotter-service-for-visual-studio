@@ -162,6 +162,9 @@
     <Compile Include="Drawing\PlotterControls.cs" />
     <Compile Include="Drawing\Positions.cs" />
     <Compile Include="Drawing\ZoomController.cs" />
+    <Compile Include="Geometry\Collection.cs" />
+    <Compile Include="Geometry\Polyline.cs" />
+    <Compile Include="Geometry\Position.cs" />
     <Compile Include="IPlotter2DService.cs" />
     <Compile Include="Plotter2DService.cs" />
     <Compile Include="PlotterControl.xaml.cs">

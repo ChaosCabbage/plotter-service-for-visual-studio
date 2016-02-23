@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="DrawSquareCommand.cs" company="Company">
+// <copyright file="DrawPointsCommand.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
@@ -9,22 +9,20 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-
 using PMC.PlotterService;
 using PMC.PlotterService.Geometry;
-using System.Collections.Generic;
 
 namespace Testbed
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class DrawSquareCommand
+    internal sealed class DrawPointsCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        public const int CommandId = 4129;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -34,21 +32,21 @@ namespace Testbed
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
-        private readonly Package _package;
+        private readonly Package package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DrawSquareCommand"/> class.
+        /// Initializes a new instance of the <see cref="DrawPointsCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private DrawSquareCommand(Package package)
+        private DrawPointsCommand(Package package)
         {
             if (package == null)
             {
                 throw new ArgumentNullException("package");
             }
 
-            _package = package;
+            this.package = package;
 
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
@@ -62,7 +60,7 @@ namespace Testbed
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static DrawSquareCommand Instance
+        public static DrawPointsCommand Instance
         {
             get;
             private set;
@@ -75,7 +73,7 @@ namespace Testbed
         {
             get
             {
-                return _package;
+                return this.package;
             }
         }
 
@@ -85,7 +83,7 @@ namespace Testbed
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new DrawSquareCommand(package);
+            Instance = new DrawPointsCommand(package);
         }
 
         /// <summary>
@@ -102,7 +100,7 @@ namespace Testbed
             if (plotter == null)
             {
                 string message = string.Format(CultureInfo.CurrentCulture, "The Plotter2DService was not to be found");
-                string title = "DrawSquareCommand";
+                string title = "DrawPointsCommand";
 
                 // Show a message box to prove we were here
                 VsShellUtilities.ShowMessageBox(
@@ -114,14 +112,11 @@ namespace Testbed
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
             }
 
-            var square = new List<Position>(5);
-            square.Add(new Position { X =  0, Y =  0 });
-            square.Add(new Position { X = 10, Y =  0 });
-            square.Add(new Position { X = 10, Y = 10 });
-            square.Add(new Position { X =  0, Y = 10 });
-            square.Add(new Position { X =  0, Y =  0 });
-
-            plotter.AddPolyline(new Polyline(square));
+            plotter.AddPoint(new Position { X = 34, Y = 52 });
+            plotter.AddPoint(new Position { X = 200, Y = 86  });
+            plotter.AddPoint(new Position { X = 0.6, Y = -23 });
+            plotter.AddPoint(new Position { X = -12, Y = 61 });
+            plotter.AddPoint(new Position { X = -42, Y = -67.9 });
         }
     }
 }
